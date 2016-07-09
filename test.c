@@ -28,15 +28,30 @@ term_print(struct tfl_idea *idea)
 {
 	sleep(1);
 
-	if (idea == &the_term)
-		printf("THE TERM!\n");
+	/* if (idea == &the_term) */
+	/* 	printf("THE TERM!\n"); */
 
-	return &the_term;
+	printf("%s ", idea->dat.bytes);
+	fflush(stdout);
+
+	if (*idea->dat.bytes == '9') {
+		*idea->dat.bytes = '0';
+	} else {
+		++*idea->dat.bytes;
+	}
+
+	return idea;
 }
 
 struct tfl_idea the_term = {
 	.dat.c_func = term_print,
 	.type = TFL_C_FUNC,
+	.sys = NULL
+};
+
+struct tfl_idea iter = {
+	.dat.bytes = (char []) { "0" },
+	.type = TFL_AXIOM,
 	.sys = NULL
 };
 
@@ -62,7 +77,7 @@ tfl_player_run(struct tfl_player *player)
 int
 main(int argc, char *argv[])
 {
-	player.old_world = &the_term;
+	player.old_world = &iter;
 	player.main = &the_term;
 	tfl_player_run(&player);
 	/* tfl_idea_run(&the_term, &the_term); */
