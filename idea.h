@@ -11,6 +11,7 @@ enum tfl_idea_type {
         LIST,
         C_FUNC,
         MAP,
+	/* PRIQUE, */
         AXIOM
 };
 #else
@@ -36,6 +37,7 @@ struct tfl_idea {
 		struct tfl_list *list;
 		struct nit_hashmap *map;
 		struct tfl_idea *(*c_func)(struct tfl_idea *idea);
+		void *generic;
 		char *bytes;
 	} dat;
 
@@ -44,4 +46,15 @@ struct tfl_idea {
 };
 
 struct tfl_idea *
+tfl_idea_map_new(struct tfl_idea *sys, unsigned int sequence);
+
+struct tfl_idea *
+tfl_idea_map_get(struct tfl_idea *idea, struct tfl_idea *input);
+
+enum nit_map_occured
+tfl_idea_map_add(struct tfl_idea *map, struct tfl_idea *key,
+		 struct tfl_idea *value);
+
+struct tfl_idea *
 tfl_idea_run(struct tfl_idea *idea, struct tfl_idea *input);
+
